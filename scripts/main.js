@@ -39,19 +39,16 @@ $(function(){
     drawLegend();
 
     g.selectAll(".state")
-    .each(doState)
-    .on("click", click)
-    .on("mouseover", function() {
-      highlightState(d3.select(this));
-    })
-    .on("mouseout",  function() {
-      unhighlightState(d3.select(this))
-      })
+      .each(doState)
     };
 
     var doState = function(){
       var listView = d3.select('ul#stateData');
       var state = d3.select(this);
+
+      state.on("click", click)
+        .on("mouseover", highlightState)
+        .on("mouseout",  unhighlightState);
 
       listView.append("li")
         .attr("data-state-id", state.attr("id"))
@@ -59,21 +56,14 @@ $(function(){
         .attr("href", "javascript:void(0)")
         .text(states[state.attr("id")] + " ")
         .append("span")
+        .append("strong")
         .property("class", "perc")
         .text(statePercentage(state))
 
       listView.selectAll("li")
-      .on("click", click)
-      .on("mouseover", function(){
-        var id = d3.select(d3.event.currentTarget).attr('data-state-id');
-        var shape = d3.select("#" + id);
-        highlightState(shape);
-      })
-      .on("mouseout", function(){
-        var id = d3.select(d3.event.currentTarget).attr('data-state-id');
-        var shape = d3.select("#" + id);
-        unhighlightState(shape);
-      })
+        .on("click", click)
+        .on("mouseover", highlightState)
+        .on("mouseout", unhighlightState);
     }
 
     var drawLegend = function(){
@@ -98,7 +88,7 @@ $(function(){
 
         key.call(xAxis).append("text")
             .attr("class", "caption")
-            .attr("y", -6)
+            .attr("y", - 6)
             .text("Precentage of Market");
 
         key.selectAll("rect")
@@ -116,12 +106,32 @@ $(function(){
           .style("fill", function(d) { return d.z; });
     }
 
-    var highlightState = function(shape){
-      shape.style('fill', d3.rgb(shape.style('fill')).darker(.3));  
+    var highlightState = function(){
+
+      var self, shape, id;
+
+      self = d3.select(this)
+      shape = (d3.select(this).node().nodeName == "LI") ?
+        d3.select("#" + d3.select(this).attr('data-state-id')) :
+        self; 
+
+      shape.style('fill', 
+          d3.rgb(shape.style('fill')).darker(.3)
+        );  
     }
 
-    var unhighlightState = function(shape){
-      shape.style('fill', d3.rgb(shape.style('fill')).brighter(.3));
+    var unhighlightState = function(){
+      
+      var self, shape, id;
+
+      self = d3.select(this)
+      shape = (d3.select(this).node().nodeName == "LI") ?
+        d3.select("#" + d3.select(this).attr('data-state-id')) :
+        self; 
+
+      shape.style('fill', 
+          d3.rgb(shape.style('fill')).brighter(.3)
+        ); 
     }
 
     var showPercentage = function(shape, percentage){
@@ -176,12 +186,12 @@ $(function(){
         scale = .95 / Math.max( stateHeight / height, stateWidth / width)
 
         g.append("svg:text")
-          .attr("x", centerX-23)
-          .attr("y", centerY+10)
-          .text( statePercentage(d) )
-          .attr("font-family", "sans-serif")
-          .attr("font-size", "25px")
-          .attr("fill", "#000"); 
+         .attr("x", centerX-23)
+         .attr("y", centerY+10)
+         .text( statePercentage(d) )
+         .attr("font-family", "sans-serif")
+         .attr("font-size", "3em")
+         .attr("fill", "#000"); 
 
         x = -topLeft[0]
         y = -topLeft[1]
@@ -190,7 +200,7 @@ $(function(){
         .classed("active", active && function(d) { return d === active; });
 
       g.transition()
-        .duration(1000)
+        .duration(750)
         .style("stroke-width", 1.5 / scale + "px")
         .style("stroke-color", "#f5f5f5")
         .attr("transform", 
