@@ -80,7 +80,8 @@ $(function(){
           .scale(x)
           .orient("bottom")
           .tickSize(13)
-          .tickValues(color.domain());
+          .tickValues(color.domain())
+          .tickFormat(function(tick){return numeral(tick).format("0%")});
 
       var key = d3.select("svg").append("g")
         .attr("class", "key")
@@ -190,7 +191,7 @@ $(function(){
          .attr("y", centerY+10)
          .text( statePercentage(d) )
          .attr("font-family", "sans-serif")
-         .attr("font-size", "3em")
+         //.attr("font-size", "50px")
          .attr("fill", "#000"); 
 
         x = -topLeft[0]
