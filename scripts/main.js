@@ -12,7 +12,7 @@ active;
 
 $(function(){
 
-  var svgDocument = "http://dk12web1.learninga-z.com:3001/reportsback/map/svg", active;
+  var svgDocument = "http://dev.dashboard.learninga-z.com/reportsback/map/svg", active;
 
   var projection = d3.geo.albersUsa()
     .scale(width)
