@@ -68,7 +68,7 @@ $(function(){
 
     var drawLegend = function(){
       var color = d3.scale.threshold()
-        .domain([.2, .4, .6, .8, 1])
+        .domain([.1, .2, .3, .4,.6])
         .range(["#FFEDA0", "#FECC5C", "#FD8D3C", "#F03B20", "#BD0026"]);
 
       // A position encoding for the key only.
