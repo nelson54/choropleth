@@ -66,10 +66,23 @@ $(function(){
         .on("mouseout", unhighlightState);
     }
 
+    var colorRange = function(){
+        var range = d3.select("#color-range"),
+            list = [];
+
+        list.push(range.attr('data-color-10'));
+        list.push(range.attr('data-color-20'));
+        list.push(range.attr('data-color-30'));
+        list.push(range.attr('data-color-40'));
+        list.push(range.attr('data-color-50'));
+
+        return list;
+    }
+
     var drawLegend = function(){
       var color = d3.scale.threshold()
         .domain([.1, .2, .3, .4, .5])
-        .range(["#FFEDA0", "#FECC5C", "#FD8D3C", "#F03B20", "#BD0026"]);
+        .range(colorRange());
 
       // A position encoding for the key only.
       var x = d3.scale.linear()
