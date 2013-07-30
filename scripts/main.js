@@ -12,7 +12,7 @@ active;
 
 $(function(){
 
-  var svgDocument = "http://localhost:3001/reportsback/map/svg", active;
+  var svgDocument = "http://dk12web1.learninga-z.com:3001/reportsback/map/svg", active;
 
   var projection = d3.geo.albersUsa()
     .scale(width)
@@ -92,7 +92,7 @@ $(function(){
       var xAxis = d3.svg.axis()
           .scale(x)
           .orient("bottom")
-          .tickSize(13)
+          .tickSize(5)
           .tickValues(color.domain())
           .tickFormat(function(tick){return numeral(tick).format("0%")});
 
@@ -103,10 +103,12 @@ $(function(){
         key.call(xAxis).append("text")
             .attr("class", "caption")
             .attr("y", - 6)
-            .text("Precentage of Market");
+            .text("Precentage of Market")
+            .style("fill", "#000");
 
         key.selectAll("rect")
           .data(color.range().map(function(d, i) {
+
             return {
               x0: i ? x(color.domain()[i - 1]) : x.range()[0],
               x1: i < color.domain().length ? x(color.domain()[i]) : x.range()[1],
@@ -114,10 +116,13 @@ $(function(){
             };
           }))
         .enter().append("rect")
-          .attr("height", 13)
+          .attr("height", 0)
           .attr("x", function(d) { return d.x0; })
           .attr("width", function(d) { return d.x1 - d.x0; })
           .style("fill", function(d) { return d.z; });
+
+        key.select("path.domain")
+            .style("fill", "url(#primaryGradient)");
     }
 
     var highlightState = function(){
