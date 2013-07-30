@@ -12,7 +12,7 @@ active;
 
 $(function(){
 
-  var svgDocument = "http://dev.dashboard.learninga-z.com/reportsback/map/svg", active;
+  var svgDocument = "http://localhost:3001/reportsback/map/svg", active;
 
   var projection = d3.geo.albersUsa()
     .scale(width)
@@ -68,12 +68,12 @@ $(function(){
 
     var drawLegend = function(){
       var color = d3.scale.threshold()
-        .domain([.1, .2, .3, .4,.6])
+        .domain([.1, .2, .3, .4, .5])
         .range(["#FFEDA0", "#FECC5C", "#FD8D3C", "#F03B20", "#BD0026"]);
 
       // A position encoding for the key only.
       var x = d3.scale.linear()
-          .domain([0, 1])
+          .domain([0,.5])
           .range([0, 350]);
 
       var xAxis = d3.svg.axis()
