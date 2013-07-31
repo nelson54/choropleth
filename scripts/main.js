@@ -10,25 +10,21 @@ var width = 959,
 height = 650,
 active;
 
-var appendSvg = function(svg){
-    d3.select("div#map")
-        .html(svg);
-}
-
 var enrichDocument = function(){
     g = d3.select("svg > g");
     //g.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
     drawLegend();
 
-    g.selectAll(".state")
-        .each(doState)
+    g.selectAll(".state")[0]
+        .sort(function(state1, state2){
+            return d3.ascending($(state1).attr("id"),$(state2).attr("id"))
+        }).each(doState)
 };
 
-var doState = function(){
+var doState = function(el){
     var listView = d3.select('ul#stateData');
-    var state = d3.select(this);
-
+    var state = d3.select(el);
     state.on("click", click)
         .on("mouseover", highlightState)
         .on("mouseout",  unhighlightState);
@@ -75,7 +71,7 @@ var drawLegend = function(){
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom")
-        .tickSize(5)
+        .tickSize(10)
         .tickValues(color.domain())
         .tickFormat(function(tick){return numeral(tick).format("0%")});
 
@@ -86,7 +82,7 @@ var drawLegend = function(){
     key.call(xAxis).append("text")
         .attr("class", "caption")
         .attr("y", - 6)
-        .text("Precentage of Market")
+        .text("Percentage of Market")
         .style("fill", "#000");
 
     key.selectAll("rect")
@@ -104,8 +100,32 @@ var drawLegend = function(){
         .attr("width", function(d) { return d.x1 - d.x0; })
         .style("fill", function(d) { return d.z; });
 
-    key.select("path.domain")
-        .style("fill", "url(#primaryGradient)");
+    d3.select("body")
+        .on("mousemove", function(){
+            if(window.over === true){
+                d3.selectAll(".state")
+                    .classed("disabled", true);
+
+                if (!window.domain)
+                    window.domain = d3.select("path.domain")[0][0];
+
+                var perc = (d3.mouse(window.domain)[0]/350)*.5;
+
+                var statesInRange = findStatesBetweenPercentage(perc *.7, perc * 1.3);
+                d3.selectAll(statesInRange).classed("disabled", false);
+            }
+        })
+
+    d3.select("path.domain")
+        .style("fill", "url(#primaryGradient)")
+        .on("mouseover", function(){
+            window.over = true;
+        })
+        .on("mouseout", function(){
+            window.over = false;
+            d3.selectAll(".state")
+                .classed("disabled", false)
+        });
 }
 
 var highlightState = function(){
@@ -149,6 +169,17 @@ var statePercentage = function(shape){
     var value = parseInt(shape.attr('data-val'), 10);
     var total = parseInt(shape.attr('data-total'), 10);
     return numeral(value/total).format("0.0%");
+}
+
+var stateNumPercentage = function(shape){
+    var value = parseInt(shape.attr('data-val'), 10);
+    var total = parseInt(shape.attr('data-total'), 10);
+    return value/total;
+}
+
+var findStatesBetweenPercentage = window.findStatesBetweenPercentage = function(start, end){
+    return d3.selectAll('.state')[0]
+        .filter(function(state){ var perc = stateNumPercentage(d3.select(state)); return perc > start && perc < end })
 }
 
 function click() {
