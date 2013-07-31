@@ -9,7 +9,7 @@
 $(function(){
 
     var enrichDocument = function(){
-        var g = d3.select("svg > g");
+        g = d3.select("svg > g");
         //g.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
         drawLegend();
