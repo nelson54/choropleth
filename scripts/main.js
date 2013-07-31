@@ -12,7 +12,7 @@ active;
 
 $(function(){
 
-  var svgDocument = "http://dk12web1.learninga-z.com:3001/reportsback/map/svg", active;
+  //var svgDocument = "http://localhost:3001/reportsback/map/svg", active;
 
   var projection = d3.geo.albersUsa()
     .scale(width)
@@ -21,11 +21,7 @@ $(function(){
   var path = d3.geo.path()
     .projection(projection);
 
-  d3.xhr(svgDocument, "image/svg", function(error, data){
-    appendSvg(data.responseText);
-    enrichDocument();
-
-  })
+  enrichDocument();
 
   var appendSvg = function(svg){
     d3.select("div#map")
@@ -58,7 +54,7 @@ $(function(){
         .append("span")
         .append("strong")
         .property("class", "perc")
-        .text(statePercentage(state))
+        .text(statePercentage(state));
 
       listView.selectAll("li")
         .on("click", click)
@@ -202,15 +198,32 @@ $(function(){
         drawDot(bottomRight[0], bottomRight[1]);
         drawDot(topLeft[0] + stateWidth, topLeft[1]);
         drawDot(bottomRight[0] - stateWidth, bottomRight[1]);*/
-        scale = .95 / Math.max( stateHeight / height, stateWidth / width)
+
+        var fontSize = "20px";
+        var translationDifferential = .05;
+        var xDifference = -23;
+        var yDifference = 10;
+
+        if (stateHeight < 10 || stateWidth < 10){
+            scale = .25 / Math.max( stateHeight / height, stateWidth / width);
+            fontSize = "6px";
+            translationDifferential = .5;
+            xDifference = -10;
+        } else if (stateHeight < 30 || stateWidth < 30) {
+            translationDifferential = .5;
+            scale = .50 / Math.max( stateHeight / height, stateWidth / width);
+            fontSize = "10px";
+        } else
+            scale = .95 / Math.max( stateHeight / height, stateWidth / width);
+
 
         g.append("svg:text")
-         .attr("x", centerX-23)
-         .attr("y", centerY+10)
+         .attr("x", centerX + xDifference)
+         .attr("y", centerY + yDifference)
          .text( statePercentage(d) )
-         .attr("font-family", "sans-serif")
-         //.attr("font-size", "50px")
-         .attr("fill", "#000"); 
+         .style("font-family", "sans-serif")
+         .style("font-size", fontSize)
+         .style("fill", "#000");
 
         x = -topLeft[0]
         y = -topLeft[1]
@@ -223,7 +236,7 @@ $(function(){
         .style("stroke-width", 1.5 / scale + "px")
         .style("stroke-color", "#f5f5f5")
         .attr("transform", 
-          "translate(" + topLeft[0]*.05 +","+ topLeft[1]*.05 + ")"
+          "translate(" + topLeft[0]*translationDifferential +","+ topLeft[1]*translationDifferential + ")"
           + "scale(" + scale + ")"
           + "translate(" + x + "," + y + ")");
 
