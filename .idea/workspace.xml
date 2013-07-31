@@ -8,8 +8,8 @@
     <ignored path="Choropleth.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/index.html" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1374315683117" ignored="false" />
-    <file path="/main.js" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1375217476384" ignored="false" />
-    <file path="/Dummy.txt" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1375231440537" ignored="false" />
+    <file path="/main.js" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1375232755699" ignored="false" />
+    <file path="/Dummy.txt" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1375231649195" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +32,7 @@
       <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="280" column="1" selection-start="7858" selection-end="7858" vertical-scroll-proportion="3.251693">
+            <state line="25" column="34" selection-start="685" selection-end="685" vertical-scroll-proportion="0.41163558">
               <folding />
             </state>
           </provider>
@@ -305,7 +305,11 @@
       <created>1375231444341</created>
       <updated>1375231444341</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Update Legend to retrieve colors from meta-data of svg document.">
+      <created>1375231654202</created>
+      <updated>1375231654202</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -495,7 +499,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="280" column="1" selection-start="7858" selection-end="7858" vertical-scroll-proportion="3.251693">
+        <state line="25" column="34" selection-start="685" selection-end="685" vertical-scroll-proportion="0.41163558">
           <folding />
         </state>
       </provider>
