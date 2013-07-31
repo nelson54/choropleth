@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25e8d987-89db-4f2d-818b-41e4e248a8a1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/main.js" afterPath="$PROJECT_DIR$/scripts/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -10,7 +9,7 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/index.html" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1374315683117" ignored="false" />
     <file path="/main.js" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1375217476384" ignored="false" />
-    <file path="/Dummy.txt" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1375207398837" ignored="false" />
+    <file path="/Dummy.txt" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1375231321832" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +32,7 @@
       <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="4" selection-start="220" selection-end="220" vertical-scroll-proportion="0.23702031">
+            <state line="249" column="1" selection-start="6608" selection-end="6608" vertical-scroll-proportion="0.96614">
               <folding />
             </state>
           </provider>
@@ -298,7 +297,11 @@
       <created>1375207405878</created>
       <updated>1375207405878</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Update Legend to retrieve colors from meta-data of svg document.">
+      <created>1375231327888</created>
+      <updated>1375231327888</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -488,7 +491,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="4" selection-start="220" selection-end="220" vertical-scroll-proportion="0.23702031">
+        <state line="249" column="1" selection-start="6608" selection-end="6608" vertical-scroll-proportion="0.96614">
           <folding />
         </state>
       </provider>
