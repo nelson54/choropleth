@@ -40,15 +40,17 @@ $(function(){
 
         states[0].sort(function(state1, state2){
             return d3.ascending($(state1).attr("id"),$(state2).attr("id"))
-        })
+        });
 
-        states.each(doState)
+        states.each(doState);
     };
 
-    var doState = function(el){
+    var doState = function(){
         var listView = d3.select('ul#stateData');
-        var state = d3.select(el);
-        state.on("click", click)
+        //var state = el;//d3.select(el);
+
+        var state = d3.select(this)
+            .on("click", click)
             .on("mouseover", highlightState)
             .on("mouseout",  unhighlightState);
 
