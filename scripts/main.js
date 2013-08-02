@@ -141,7 +141,7 @@ $(function(){
 
                     d3.select("#slider")
                         .attr("x", mousePosition);
-                }else {
+                } else if(!window.selected) {
                     key.select("#slider")
                         .attr("x", 0);
 
@@ -206,15 +206,6 @@ $(function(){
         );
     }
 
-    var showPercentage = function(shape, percentage){
-        var svg = d3.select("svg");
-        var bb = shape.node().getBBox();
-    }
-
-    var hidePercentage = function(){
-        d3.select("text").data({}).exit().remove();
-    }
-
     var statePercentage = function(shape){
         return numeral(stateNumPercentage(shape)).format("0.0%");
     }
@@ -227,6 +218,8 @@ $(function(){
     }
 
     function click() {
+        window.selected = true;
+
         if (d3.select(this).node().nodeName == "LI"){
             var id = d3.select(this).attr('data-state-id');
             d = d3.select("#" + id);
@@ -305,6 +298,8 @@ $(function(){
     }
 
     function reset() {
+        window.selected = false;
+
         d3.selectAll("svg > text").data({}).exit().remove();
 
         g.selectAll(".state")
