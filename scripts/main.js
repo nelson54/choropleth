@@ -8,22 +8,43 @@
 
 $(function(){
 
+    var g;
+
+    var data = d3.selectAll('.state')[0].map(
+        function(st){
+            var state = d3.select(st);
+            var teachersTotal = state.attr("data-total");
+            var teachers = state.attr("data-val");
+            var code = state.attr("id");
+            return {code: code, count: teachers, total: teachersTotal, percentage: teachersTotal/teachers}
+        }
+    );
+
     var enrichDocument = function(){
+
+        data = window.data = d3.map(d3.selectAll('.state')[0],
+            function(st){
+                var teachersTotal = parseInt(st.attr("data-total"),10);
+                var teachers = parseInt(st.attr("data-val"),10);
+                var code = st.attr("id");
+                return {code: code, count: teachers, total: teachersTotal, percentage: teachers/teachersTotal}
+            }
+        );
+
         g = d3.select("svg > g");
         //g.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
         drawLegend();
 
-        var states = g.selectAll(".state")
-
-        d3.selectAll(states[0].sort(function(state1, state2){
-            return d3.ascending($(state1).attr("id"),$(state2).attr("id"))
-        })).each(doState)
+        g.selectAll(".state")[0]
+            .sort(function(state1, state2){
+                return d3.ascending($(state1).attr("id"),$(state2).attr("id"))
+            }).each(doState)
     };
 
-    var doState = function(){
+    var doState = function(el){
         var listView = d3.select('ul#stateData');
-        var state = d3.select(this);
+        var state = d3.select(el);
         state.on("click", click)
             .on("mouseover", highlightState)
             .on("mouseout",  unhighlightState);
@@ -70,11 +91,11 @@ $(function(){
         var xAxis = d3.svg.axis()
             .scale(x)
             .orient("bottom")
-            .tickSize(10)
+            .tickSize(30)
             .tickValues(color.domain())
             .tickFormat(function(tick){return numeral(tick).format("0%")});
 
-        var key = d3.select("svg").append("g")
+        var key = d3.select("svg").attr("height", "670").append("g")
             .attr("class", "key")
             .attr("transform", "translate(0,600)");
 
@@ -84,34 +105,48 @@ $(function(){
             .text("Percentage of Market")
             .style("fill", "#000");
 
-        key.selectAll("rect")
-            .data(color.range().map(function(d, i) {
-
-                return {
-                    x0: i ? x(color.domain()[i - 1]) : x.range()[0],
-                    x1: i < color.domain().length ? x(color.domain()[i]) : x.range()[1],
-                    z: d
-                };
-            }))
-            .enter().append("rect")
-            .attr("height", 0)
-            .attr("x", function(d) { return d.x0; })
-            .attr("width", function(d) { return d.x1 - d.x0; })
-            .style("fill", function(d) { return d.z; });
-
+        key.selectAll(".tick").style("fill", "#000")
         d3.select("body")
             .on("mousemove", function(){
-                if(window.over === true){
+                if (!window.domain)
+                    window.domain = d3.select("path.domain")[0][0];
+
+                var mxy = d3.mouse(d3.select("path.domain")[0][0]);
+
+                if(window.over === true && mxy && 350 > mxy[0] && mxy[0] > 0 && mxy[1] > 0 && 30 > mxy[1]){
+
+
+
+                    var mousePosition = d3.mouse(window.domain)[0];
+                    var perc = (mousePosition/350)*.5,
+                        start = perc * .7,
+                        end = perc * 1.3;
+
+
+
+                    d3.selectAll(".state").each(
+                        function(){
+                            var state = d3.select(this);
+                            var statePerc = stateNumPercentage(state);
+                            var bool = !(statePerc > start && statePerc < end);
+                            state.classed("disabled", bool);
+
+                        });
+
+
+                    d3.select("#slider")
+                        .attr("x", mousePosition);
+                }else {
+                    key.select("#slider")
+                        .attr("x", 0);
+
+                    d3.selectAll(".state").classed("disabled", false)
+
                     d3.selectAll(".state")
-                        .classed("disabled", true);
+                        .classed("disabled", false)
 
-                    if (!window.domain)
-                        window.domain = d3.select("path.domain")[0][0];
-
-                    var perc = (d3.mouse(window.domain)[0]/350)*.5;
-
-                    var statesInRange = findStatesBetweenPercentage(perc *.7, perc * 1.3);
-                    d3.selectAll(statesInRange).classed("disabled", false);
+                    key.select("#slider")
+                        .attr("x", 0);
                 }
             })
 
@@ -120,11 +155,22 @@ $(function(){
             .on("mouseover", function(){
                 window.over = true;
             })
-            .on("mouseout", function(){
-                window.over = false;
-                d3.selectAll(".state")
-                    .classed("disabled", false)
-            });
+
+        var keyElements = d3.selectAll("g.key > *");
+        keyElements[0].reverse();
+        keyElements.order();
+
+        key.append("rect")
+            .attr("height", 33)
+            .attr("width","2px")
+            .style("fill", "#000")
+            .attr("id", "slider");
+
+        d3.selectAll(".tick")
+            .append("rect")
+            .attr("height", 33)
+            .attr("width","1px")
+            .style("fill", "#fff")
     }
 
     var highlightState = function(){
@@ -165,20 +211,14 @@ $(function(){
     }
 
     var statePercentage = function(shape){
-        var value = parseInt(shape.attr('data-val'), 10);
-        var total = parseInt(shape.attr('data-total'), 10);
-        return numeral(value/total).format("0.0%");
+        return numeral(stateNumPercentage(shape)).format("0.0%");
     }
 
     var stateNumPercentage = function(shape){
-        var value = parseInt(shape.attr('data-val'), 10);
-        var total = parseInt(shape.attr('data-total'), 10);
+        var state = shape;
+        var value = parseInt(state.attr('data-val'), 10);
+        var total = parseInt(state.attr('data-total'), 10);
         return value/total;
-    }
-
-    var findStatesBetweenPercentage = window.findStatesBetweenPercentage = function(start, end){
-        return d3.selectAll('.state')[0]
-            .filter(function(state){ var perc = stateNumPercentage(d3.select(state)); return perc > start && perc < end })
     }
 
     function click() {
@@ -217,30 +257,21 @@ $(function(){
          drawDot(bottomRight[0] - stateWidth, bottomRight[1]);*/
 
         var fontSize = "20px";
-        var translationDifferential = .05;
+        var translationDifferential = .40;
         var xDifference = -23;
         var yDifference = 10;
 
         if (stateHeight < 10 || stateWidth < 10){
             scale = .25 / Math.max( stateHeight / height, stateWidth / width);
             fontSize = "6px";
-            translationDifferential = .5;
+            translationDifferential = .30;
             xDifference = -10;
         } else if (stateHeight < 30 || stateWidth < 30) {
-            translationDifferential = .5;
+            translationDifferential = .30;
             scale = .50 / Math.max( stateHeight / height, stateWidth / width);
             fontSize = "10px";
         } else
-            scale = .95 / Math.max( stateHeight / height, stateWidth / width);
-
-
-        g.append("svg:text")
-            .attr("x", centerX + xDifference)
-            .attr("y", centerY + yDifference)
-            .text( statePercentage(d) )
-            .style("font-family", "sans-serif")
-            .style("font-size", fontSize)
-            .style("fill", "#000");
+            scale = .50 / Math.max( stateHeight / height, stateWidth / width);
 
         x = -topLeft[0]
         y = -topLeft[1]
@@ -253,15 +284,23 @@ $(function(){
             .style("stroke-width", 1.5 / scale + "px")
             .style("stroke-color", "#f5f5f5")
             .attr("transform",
-                "translate(" + topLeft[0]*translationDifferential +","+ topLeft[1]*translationDifferential + ")"
+                "skewX(15) translate(" + topLeft[0]*translationDifferential +","+ topLeft[1]*translationDifferential + ")"
                     + "scale(" + scale + ")"
-                    + "translate(" + x + "," + y + ")");
+                    + "translate(" + x + "," + y + ") ");
+
+        d3.select("svg").append("svg:text")
+            .attr("x", centerX + xDifference)
+            .attr("y", centerY + yDifference)
+            .text( statePercentage(d) )
+            .style("font-family", "sans-serif")
+            .style("font-size", 50)
+            .style("fill", "#000");
 
 
     }
 
     function reset() {
-        g.selectAll("text").data({}).exit().remove();
+        d3.selectAll("svg > text").data({}).exit().remove();
 
         g.selectAll(".state")
             .classed("disabled", false)
