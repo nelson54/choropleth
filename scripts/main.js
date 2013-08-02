@@ -36,10 +36,13 @@ $(function(){
 
         drawLegend();
 
-        g.selectAll(".state")[0]
-            .sort(function(state1, state2){
-                return d3.ascending($(state1).attr("id"),$(state2).attr("id"))
-            }).each(doState)
+        var states = g.selectAll(".state");
+
+        states[0].sort(function(state1, state2){
+            return d3.ascending($(state1).attr("id"),$(state2).attr("id"))
+        })
+
+        states.each(doState)
     };
 
     var doState = function(el){
