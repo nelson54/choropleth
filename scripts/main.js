@@ -54,7 +54,7 @@ $(function(){
             d3rgb = d3.rgb(color),
             d3lab = d3.lab(d3rgb),
             dColor = d3lab.darker().toString(),
-            lColor = d3lab.brighter().toString(),
+            bColor = d3lab.brighter().toString(),
             code = state.attr("id"),
 
             topLeft = [n.x, n.y],
@@ -96,7 +96,7 @@ $(function(){
                     percentage: teachers/teachersTotal,
                     color: color,
                     dColor: dColor,
-                    lColor: lColor,
+                    bColor: bColor,
                     topLeft: topLeft,
                     bottomRight: bottomRight,
                     height: height,
@@ -140,7 +140,7 @@ $(function(){
                 d3.select('span.tooltip')
                     .text(state.name + " " + percentage)
                     .style("left", 190 + state.textX + "px" )
-                    .style("top", -10 + state.topLeft[1] + "px" )
+                    .style("top", 140+state.topLeft[1] + "px" )
                     .style("z-index", 1000)
                     .transition()
                     .duration(200)
