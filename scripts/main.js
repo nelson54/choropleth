@@ -140,7 +140,7 @@ $(function(){
                 d3.select('span.tooltip')
                     .text(state.name + " " + percentage)
                     .style("left", 190 + state.textX + "px" )
-                    .style("top", 140+state.topLeft[1] + "px" )
+                    .style("top", -10 + state.topLeft[1] + "px" )
                     .style("z-index", 1000)
                     .transition()
                     .duration(200)

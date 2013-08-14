@@ -8,8 +8,8 @@
     <ignored path="Choropleth.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/index.html" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1374315683117" ignored="false" />
-    <file path="/main.js" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1376442890123" ignored="false" />
-    <file path="/Dummy.txt" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1376442712116" ignored="false" />
+    <file path="/main.js" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1376443145980" ignored="false" />
+    <file path="/Dummy.txt" changelist="25e8d987-89db-4f2d-818b-41e4e248a8a1" time="1376442959040" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +32,7 @@
       <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="142" column="36" selection-start="4929" selection-end="4929" vertical-scroll-proportion="0.55732125">
+            <state line="98" column="29" selection-start="3276" selection-end="3276" vertical-scroll-proportion="0.323496">
               <folding />
             </state>
           </provider>
@@ -287,7 +287,11 @@
       <created>1376442718664</created>
       <updated>1376442718664</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Fix positioning">
+      <created>1376442963579</created>
+      <updated>1376442963579</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -355,7 +359,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="add transition" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix positioning" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -375,6 +379,7 @@
     <MESSAGE value="Add 3d transform on click" />
     <MESSAGE value="Remove 3d transform and legend&#10;Add tooltips" />
     <MESSAGE value="add transition" />
+    <MESSAGE value="Fix positioning" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -493,7 +498,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="36" selection-start="4929" selection-end="4929" vertical-scroll-proportion="0.55732125">
+        <state line="98" column="29" selection-start="3276" selection-end="3276" vertical-scroll-proportion="0.323496">
           <folding />
         </state>
       </provider>
