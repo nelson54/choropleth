@@ -8,6 +8,48 @@
 
 $(function(){
 
+    var drawLegend = function(){
+        var color = d3.scale.threshold()
+            .domain([.1, .2, .3, .4, .5]);
+
+        // A position encoding for the key only.
+        var x = d3.scale.linear()
+            .domain([0,.5])
+            .range([0, 350]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom")
+            .tickSize(30)
+            .tickValues(color.domain())
+            .tickFormat(function(tick){return numeral(tick).format("0%")});
+
+        var key = d3.select("svg").attr("height", "670").append("g")
+            .attr("class", "key")
+            .attr("transform", "translate(0,600)");
+
+        key.call(xAxis).append("text")
+            .attr("class", "caption")
+            .attr("y", - 6)
+            .text("Percentage of Market")
+            .style("fill", "#000");
+
+        key.selectAll(".tick").style("fill", "#000")
+
+        d3.select("path.domain")
+            .style("fill", "url(#primaryGradient)")
+
+        var keyElements = d3.selectAll("g.key > *");
+        keyElements[0].reverse();
+        keyElements.order();
+
+        d3.selectAll(".tick")
+            .append("rect")
+            .attr("height", 33)
+            .attr("width","1px")
+            .style("fill", "#fff")
+    }
+
     d3.json("http://localhost:3001/reportsback/map/snapshots/all", function(error, json) {
         if (error) return console.warn(error);
         console.log(JSON.stringify(json));
@@ -28,9 +70,9 @@ $(function(){
         );
     });
 
-    jQuery("svg")
-        .css("clear", "left")
-        .css("float", "left");
+    d3.select("svg")
+        .style("clear", "left")
+        .style("float", "left");
 
     var svgWidth = d3.select("svg").attr("width"),
         svgHeight = d3.select("svg").attr("height");
@@ -42,6 +84,7 @@ $(function(){
     colorRange = d3.range(10, 60, 10).map(function(num){
         return range.attr('data-color-' + num);
     }),
+
     percentageFormatter = d3.format("%"),
     data = d3.selectAll('.state')[0]
         .map(function(st){
@@ -139,7 +182,7 @@ $(function(){
             .on("mouseover", function(){
                 d3.select('span.tooltip')
                     .text(state.name + " " + percentage)
-                    .style("left", 190 + state.textX + "px" )
+                    .style("left", 300+ state.textX + "px" )
                     .style("top", -10 + state.topLeft[1] + "px" )
                     .style("z-index", 1000)
                     .transition()
@@ -177,4 +220,6 @@ $(function(){
                         .property("class", "perc")
                         .text(percentage);
     });
+
+    drawLegend();
 })
