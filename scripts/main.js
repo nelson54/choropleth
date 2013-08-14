@@ -139,17 +139,31 @@ $(function(){
             .on("mouseover", function(){
                 d3.select('span.tooltip')
                     .text(state.name + " " + percentage)
-                    .style("display", "block")
                     .style("left", 190 + state.textX + "px" )
                     .style("top", -10 + state.topLeft[1] + "px" )
-                    .style("z-index", 1000);
+                    .style("z-index", 1000)
+                    .transition()
+                    .duration(200)
+                    .style("display", "block");
 
-                d3.select(this).style("fill", state.dColor);
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .style("fill", state.dColor);
             })
             .on("mouseout", function(){
-                d3.select('span.tooltip').style("display", "none");
+                d3.select('span.tooltip')
+                    .transition()
+                    .duration(200)
+                    .delay(100)
+                    .style("display", "none");
 
-                d3.select(this).style("fill", state.color);
+
+
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .style("fill", state.color);
             })
             .data(state);
 
